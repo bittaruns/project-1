@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -9,19 +8,17 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-// const jakarta = Plus_Jakarta_Sans({
-//   subsets: ["latin"],
-//   variable: "--font-jakarta",
-// });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Warmly | Premium Greetings for Every Moment",
+  title: "Warmly",
   description: "Discover, download, and share high-quality greeting cards, festival wishes, and social media posters for every occasion.",
+  icons:{
+    icon:"/logo.png"
+  },
   keywords: [
     "greeting cards", 
     "festival wishes", 
@@ -57,11 +54,9 @@ export default function RootLayout({
     >
       <body className="t-bg t-text min-h-screen flex flex-col">
         <Navbar />
-        {/* flex-1 ensures the page content pushes the footer to the bottom */}
         <div className="flex-1"> 
           {children}
         </div>
-        <Footer />
       </body>
     </html>
   );

@@ -1,86 +1,59 @@
 import Link from 'next/link';
-import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
-import { Sparkles } from 'lucide-react';
 import { HeroCardFan } from '@/components/shared/HeroCardFan';
 import { HeroSearch } from '@/components/shared/HeroSearch';
 import { FeaturedCollections } from '@/components/shared/FeaturedCollections';
 import { CATEGORIES } from '@/lib/mockdata';
-
-const jakarta = Plus_Jakarta_Sans({ 
-  subsets: ['latin'], 
-  weight: ['400', '500', '600', '700', '800'],
-  display: 'swap' 
-});
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin'], 
-  style: ['italic'], 
-  weight: ['600', '700'],
-  display: 'swap' 
-});
+import { Footer } from '@/components/layout/footer';
 
 export default function HomePage() {
   return (
     <main>
       {/* ── Hero Section ── */}
-      {/* Reduced top/bottom padding to keep it on one screen */}
-      <section className="relative t-bg overflow-hidden pt-24 pb-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center min-h-[105vh] justify-center">
-        
-        {/* Background Textures: Grid (with fade mask) + Radial */}
-        {/* The mask-image makes the grid visible at the top and fade to transparent at the bottom */}
-        <div className="absolute inset-0 pointer-events-none bg-grid-pattern z-0 [mask-image:linear-gradient(to_bottom,white_5%,transparent_40%)]" />
-        <div className="absolute inset-0 pointer-events-none bg-radial-shadow z-0" />
+      <section className="relative t-bg overflow-hidden pt-32 pb-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center min-h-[100svh] justify-start sm:justify-center">
 
         <div className="relative max-w-5xl mx-auto text-center z-10 w-full flex flex-col items-center">
           
-          {/* Badge */}
-          {/* <div className="animate-fade-up">
-            <div className="inline-flex items-center gap-2 opacity-90 px-4 py-1.5 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/20 text-[var(--accent)] mb-4 shadow-sm">
-              <span className={`${jakarta.className} text-xs font-semibold tracking-wide`}>
-                Over 1,000 Greetings
-              </span>
-            </div>
-          </div> */}
-
-          {/* Titles - Reduced font clamp sizes */}
-          <div className="mb-6 animate-fade-up delay-100 scale-130">
+          {/* Titles - Increased font size clamps for massive impact */}
+          <div className="mb-8 animate-fade-up delay-100 w-full px-2">
             <h1 
-              className={`${jakarta.className} font-[600] text-[#111827] dark:text-white leading-[1.05] tracking-tight`}
-              style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
+              className="font-extrabold text-[var(--text)] tracking-tight leading-[1.05]"
+              style={{ fontSize: 'clamp(3rem, 9vw, 6rem)' }}
             >
               Beautiful <span className="text-[var(--accent)]">Greetings</span>
             </h1>
             <h2 
-              className={`${jakarta.className} italic font-bold text-[#6B7280] dark:text-gray-300 leading-tight mt-1`}
-              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+              className="font-extrabold text-gray-400 dark:text-gray-500 tracking-tight leading-tight mt-1"
+              style={{ fontSize: 'clamp(2.75rem, 8vw, 5.5rem)' }}
             >
               for Every Moment.
             </h2>
           </div>
 
-          {/* Search Bar - Reduced bottom margin */}
-          <div className="w-full relative z-30 mb- mt-5 animate-fade-up delay-200">
+          {/* Search Bar */}
+          <div className="w-full max-w-2xl relative z-40 mt-2 sm:mt-4 animate-fade-up delay-200">
             <HeroSearch />
           </div>
 
-          {/* Animated card fan - Added origin-top and slight scaling on mobile to fit */}
-          <div className="mb-8 animate-fade-up delay-300 origin-top scale-90 sm:scale-100">
+          {/* Animated card fan */}
+          <div className="my-14 sm:my-20 animate-fade-up delay-300 origin-top scale-75 sm:scale-90 md:scale-100 relative z-10">
             <HeroCardFan />
           </div>
 
-          {/* Stats Section - Tightened gap and margins */}
-          <div className={`${jakarta.className} flex flex-wrap justify-center gap-8 sm:gap-16 mt-2 animate-fade-up delay-500`}>
+          {/* Stats Section - Removed border, added softer shadow */}
+          <div className="animate-fade-up delay-500 bg-[var(--surface)]/50 backdrop-blur-md rounded-3xl px-8 sm:px-16 py-5 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-none inline-flex flex-wrap justify-center gap-8 sm:gap-16">
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-[#292c31]/60 dark:text-white/40 mb-1">1K+</p>
-              <p className="text-xs sm:text-sm text-gray-400 dark:text-white/20 font-medium">Greeting Cards</p>
+              <p className="text-2xl sm:text-3xl font-extrabold t-text mb-0.5">10K+</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold">Greetings</p>
             </div>
+            <div className="w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-[#292c31]/60 dark:text-white/40 mb-1">200K+</p>
-              <p className="text-xs sm:text-sm text-gray-400 dark:text-white/20 font-medium">Downloads</p>
+              <p className="text-2xl sm:text-3xl font-extrabold t-text mb-0.5">2M+</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold">Downloads</p>
             </div>
+            <div className="w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-[#292c31]/60 dark:text-white/40 mb-1">50</p>
-              <p className="text-xs sm:text-sm text-gray-400 dark:text-white/20 font-medium">Categories</p>
+              <p className="text-2xl sm:text-3xl font-extrabold t-text mb-0.5">50+</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold">Categories</p>
             </div>
           </div>
 
@@ -91,36 +64,46 @@ export default function HomePage() {
       <FeaturedCollections categories={CATEGORIES} />
 
       {/* ── Trending Categories ── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 t-bg relative z-10">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 t-bg relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-10 animate-fade-up">
-            <h2 className={`${jakarta.className} text-2xl sm:text-3xl font-bold t-text`}>Trending Categories</h2>
-            <p className="t-muted mt-2">What everyone is sharing right now</p>
+          
+          <div className="mb-10 sm:mb-12 animate-fade-up text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight t-text">Trending Categories</h2>
+              <p className="t-muted mt-2 text-sm sm:text-base font-medium">What everyone is sharing right now.</p>
+            </div>
+            <Link href="/categories" className="text-sm font-bold text-[var(--accent)] hover:opacity-80 transition-opacity">
+              View all categories &rarr;
+            </Link>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {CATEGORIES.map((cat, i) => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            {CATEGORIES.slice(0, 4).map((cat, i) => (
               <Link
                 href={`/${cat.name.toLowerCase()}`}
                 key={cat.name}
-                className="group relative overflow-hidden rounded-2xl aspect-square border t-border card-hover animate-scale-in block"
+                className="group relative overflow-hidden rounded-2xl aspect-square sm:aspect-auto sm:h-72 border t-border block shadow-sm animate-scale-in"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
                 <img 
                   src={cat.image} 
                   alt={cat.name} 
                   loading="lazy" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                  className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out" 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className={`${jakarta.className} text-white font-bold text-sm sm:text-base`}>{cat.name}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                  <p className="text-white font-bold text-lg sm:text-xl lg:text-2xl group-hover:translate-x-1 transition-transform duration-300">
+                    {cat.name}
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
+      
+      <Footer/>
     </main>
   );
 }

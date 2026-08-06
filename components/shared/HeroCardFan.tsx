@@ -2,32 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 
-// 1. Increased the 'tx' (Translate X) spread to accommodate wider cards
+// Spread out wider in a smooth, elegant semi-linear arc
 const FAN_CARDS = [
-  { img: '/hero/1.jpeg', rotate: -20, tx: -400, ty: 80, z: 1 }, 
-  { img: '/hero/2.jpeg', rotate: -12, tx: -300, ty: 15, z: 2 }, 
-  { img: '/hero/3.jpeg', rotate: -6,  tx: -170, ty: 45, z: 3 }, 
-  { img: '/hero/4.jpeg', rotate: -2,  tx: -50,  ty: 0,  z: 4 }, 
-  { img: '/hero/5.jpeg', rotate: 3,   tx: 50,   ty: 30, z: 5 }, 
-  { img: '/hero/6.jpeg', rotate: 9,   tx: 170,  ty: -5, z: 6 }, 
-  { img: '/hero/7.jpeg', rotate: 15,  tx: 300,  ty: 40, z: 7 }, 
-  { img: '/hero/8.jpeg', rotate: 20,  tx: 400,  ty: 15, z: 8 }, 
+  { img: '/hero/1.jpeg', rotate: -18, tx: -420, ty: 45, z: 10 }, 
+  { img: '/hero/2.jpeg', rotate: -11, tx: -250, ty: 20, z: 20 }, 
+  { img: '/hero/3.jpeg', rotate: -4,  tx: -80,  ty: 5,  z: 30 }, 
+  { img: '/hero/4.jpeg', rotate: 4,   tx: 80,   ty: 5,  z: 40 }, 
+  { img: '/hero/5.jpeg', rotate: 11,  tx: 250,  ty: 20, z: 50 }, 
+  { img: '/hero/6.jpeg', rotate: 18,  tx: 420,  ty: 45, z: 60 }, 
 ];
 
 export function HeroCardFan() {
   const [fanned, setFanned] = useState(false);
-  const [badgesVisible, setBadgesVisible] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const t1 = setTimeout(() => setFanned(true), 150);
-    const t2 = setTimeout(() => setBadgesVisible(true), 1000);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    return () => clearTimeout(t1);
   }, []);
 
-  // 2. Increased the physical width of the cards
-  const CARD_W = 205; // Increased from 220
-  const CARD_H = 205; // Kept height the same, making them wider rectangles
+  // Card dimensions
+  const CARD_W = 210; 
+  const CARD_H = 210; 
 
   const smoothStyle = {
     backfaceVisibility: 'hidden',
@@ -36,94 +32,51 @@ export function HeroCardFan() {
   } as React.CSSProperties;
 
   return (
-    <div className="relative flex items-center justify-center w-full" style={{ height: CARD_H + 130 }}>
+    <div className="relative flex items-center justify-center w-full" style={{ height: CARD_H + 20 }}>
       
-      {/* Light Peach (Wedding) */}
-      {/* <div
-        className="absolute pointer-events-none z-20 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
-        style={{
-          left: '10%', top: 20,
-          transform: `translateX(${badgesVisible ? '-240px' : '0px'}) translateY(${badgesVisible ? '0px' : '20px'})`,
-          opacity: badgesVisible ? 1 : 0,
-        }}
-      >
-        <div className="bg-[#ffedd5] text-[#c2410c] border border-[#fed7aa] px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
-          @Wedding
-        </div>
-      </div> */}
-
-      {/* Pale Green (Birthday) */}
-      {/* <div
-        className="absolute pointer-events-none z-20 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] delay-100"
-        style={{
-          right: '-20%', top: 10,
-          transform: `translateX(${badgesVisible ? '210px' : '0px'}) translateY(${badgesVisible ? '0px' : '20px'})`,
-          opacity: badgesVisible ? 1 : 0,
-        }}
-      >
-        <div className="bg-[#dcfce7] text-[#15803d] border border-[#bbf7d0] px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
-          @Birthday
-        </div>
-      </div> */}
-
-      {/* Baby Blue (Christmas) */}
-      {/* <div
-        className="absolute pointer-events-none z-20 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] delay-200"
-        style={{
-          left: '65%', top: -10,
-          transform: `translateX(${badgesVisible ? '-70px' : '0px'}) translateY(${badgesVisible ? '0px' : '20px'})`,
-          opacity: badgesVisible ? 1 : 0,
-        }}
-      >
-        <div className="bg-[#dbeafe] text-[#1d4ed8] border border-[#bfdbfe] px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
-          @Christmas
-        </div>
-      </div> */}
-
-      {/* The 8 Cards */}
-      {/* 3. This relative div automatically takes the size of CARD_W and CARD_H */}
-      <div className="relative" style={{ width: CARD_W, height: CARD_H }}>
+      <div className="relative flex items-center justify-center" style={{ width: CARD_W, height: CARD_H }}>
         {FAN_CARDS.map((card, i) => {
           const isHovered = hoveredIndex === i;
           
           let transform = '';
           if (!fanned) {
-            transform = `translateX(0px) translateY(30px) rotate(0deg) scale(1)`;
+            transform = `translateX(0px) translateY(20px) rotate(0deg) scale(0.9)`;
           } else if (isHovered) {
-            transform = `translateX(${card.tx}px) translateY(${card.ty - 25}px) rotate(${card.rotate}deg) scale(1.08)`;
+            transform = `translateX(${card.tx}px) translateY(${card.ty - 25}px) rotate(${card.rotate}deg) scale(1.12)`;
           } else {
             transform = `translateX(${card.tx}px) translateY(${card.ty}px) rotate(${card.rotate}deg) scale(1)`;
           }
 
-          const zIndex = isHovered ? 50 : card.z;
+          const zIndex = isHovered ? 150 : card.z;
           const transformTransition = fanned 
             ? `transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)` 
-            : `transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${i * 30}ms`;
+            : `transform 1s cubic-bezier(0.16, 1, 0.3, 1) ${i * 40}ms`;
 
           return (
             <div
               key={i}
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="absolute top-0 left-0 cursor-pointer rounded-[20px] overflow-hidden bg-[var(--surface)] border border-black/5 dark:border-white/10"
+              className="absolute top-0 left-0 cursor-pointer rounded-[24px] overflow-hidden bg-[var(--surface-2)]"
               style={{
                 ...smoothStyle,
                 width: CARD_W,
                 height: CARD_H,
                 zIndex,
                 transform,
-                opacity: fanned ? 1 : (i === 3 || i === 4) ? 1 : 0,
-                transition: `${transformTransition}, opacity 0.5s ease`,
+                opacity: fanned ? 1 : (i === 3) ? 1 : 0,
+                transition: `${transformTransition}, opacity 0.5s ease, box-shadow 0.4s ease`,
                 boxShadow: isHovered 
-                  ? '0 30px 60px -12px rgba(0, 0, 0, 0.35)' 
-                  : '0 15px 35px -5px rgba(0, 0, 0, 0.15)',
+                  ? '0 40px 80px -12px rgba(0, 0, 0, 0.5)' 
+                  : '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
               }}
             >
               <img
                 src={card.img}
-                alt={`Hero Card ${i + 1}`}
+                alt={`Warmly Featured Card ${i + 1}`}
                 className="w-full h-full object-cover select-none pointer-events-none"
               />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent pointer-events-none" />
             </div>
           );
         })}
