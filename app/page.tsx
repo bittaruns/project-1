@@ -257,6 +257,52 @@ export default function HomePage() {
         </div>
       </section>
 
+{/* ── Support & Collaboration Section (Buy me coffee & Work with us) ── */}
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t t-border relative z-10 bg-neutral-900/5">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight t-text">
+            Love What We Do?
+          </h2>
+          <p className="t-muted mt-2 text-xs sm:text-sm max-w-md font-medium">
+            Support the platform or collaborate with our team to build amazing things together.
+          </p>
+
+          <div className="mt-6 sm:mt-8 flex flex-wrap justify-center items-center gap-4 w-full sm:w-auto">
+            {/* Buy Me a Coffee */}
+            <Link
+              href="/support"
+              className="
+                inline-flex items-center justify-center gap-2.5
+                rounded-full bg-[#FFDD00] text-black
+                px-7 py-3.5
+                font-bold text-sm
+                shadow-md hover:shadow-lg
+                hover:scale-105 active:scale-95
+                transition-all duration-300
+              "
+            >
+              <span>☕</span> Buy Me a Coffee
+            </Link>
+
+            {/* Work With Us */}
+            <Link
+              href="/careers"
+              className="
+                inline-flex items-center justify-center gap-2
+                rounded-full border-2 t-border t-text
+                px-7 py-3.5
+                font-bold text-sm
+                hover:bg-[var(--surface)] hover:border-transparent
+                hover:scale-105 active:scale-95
+                transition-all duration-300
+              "
+            >
+              💼 Work With Us &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
