@@ -4,6 +4,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, TrendingUp, X } from 'lucide-react';
 
+export function HeroSearch() {
+  return (
+    <div className="w-full max-w-3xl mx-auto">
+      <UniversalSearch variant="hero" />
+    </div>
+  );
+}
+
 interface UniversalSearchProps {
   variant?: 'navbar' | 'hero' | 'page';
   initialQuery?: string;
@@ -43,7 +51,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
     }
   };
 
-  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -54,7 +61,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Shared Responsive Dropdown UI
   const DropdownMenu = () => (
     <div 
       className={`
@@ -64,7 +70,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
         bg-[var(--surface)] border t-border rounded-2xl shadow-2xl p-4 sm:p-6 text-left animate-fade-up z-[60] origin-top overflow-hidden
       `}
     >
-      {/* Trending Searches */}
       <div className="mb-4 sm:mb-5">
         <h3 className="text-[11px] sm:text-xs font-bold t-muted uppercase tracking-wider mb-2 sm:mb-2.5">
           Trending Searches
@@ -84,7 +89,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
         </div>
       </div>
 
-      {/* Trending Topics */}
       <div className={variant !== 'navbar' ? 'mb-4 sm:mb-5' : ''}>
         <h3 className="text-[11px] sm:text-xs font-bold t-muted uppercase tracking-wider mb-2 sm:mb-2.5">
           Trending Topics
@@ -106,7 +110,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
         </div>
       </div>
 
-      {/* Trending Collections (Shown on Hero & Page variants) */}
       {variant !== 'navbar' && (
         <div>
           <h3 className="text-[11px] sm:text-xs font-bold t-muted uppercase tracking-wider mb-2 sm:mb-2.5">
@@ -129,7 +132,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
     </div>
   );
 
-  // ================= NAVBAR VARIANT =================
   if (variant === 'navbar') {
     return (
       <div className="relative flex items-center z-50" ref={wrapperRef}>
@@ -173,38 +175,37 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
             </button>
           )}
         </form>
-
         {isOpen && <DropdownMenu />}
       </div>
     );
   }
 
-  // ================= HERO / PAGE VARIANTS =================
+  // ================= HERO / PAGE VARIANTS (PILL SHAPE APPLIED) =================
   return (
-    <div ref={wrapperRef} className="relative flex flex-col items-center w-full max-w-3xl mx-auto z-50">
+    <div ref={wrapperRef} className="relative flex flex-col items-center w-full max-w-xl mx-auto z-50">
       <form 
         onSubmit={handleSearch} 
         className={`
-          relative flex items-center w-full rounded-2xl sm:rounded-full p-1 sm:p-1.5 transition-all duration-300
+          relative flex items-center w-full rounded-full p-1.5 transition-all duration-300
           ${variant === 'page' ? 'bg-[var(--surface-2)] focus-within:bg-[var(--surface)]' : 'bg-[var(--surface)]'}
           border ${isOpen ? 'border-[var(--accent)]/50 ring-2 ring-[var(--accent)]/10' : variant === 'page' ? 'border-transparent hover:border-[var(--border)]' : 'border-gray-200 dark:border-white/10'}
           shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)]
         `}
       >
-        <Search size={18} className="text-gray-400 ml-3 sm:ml-4 flex-shrink-0" />
+        <Search size={20} className="text-gray-400 ml-4 flex-shrink-0" />
         
         <input 
           value={val} 
           onChange={e => setVal(e.target.value)} 
           onFocus={() => setIsOpen(true)} 
           placeholder="Search birthday, Diwali, Christmas..." 
-          className="flex-1 bg-transparent t-text text-xs sm:text-base px-2.5 sm:px-4 py-2 sm:py-3 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 min-w-0" 
+          className="flex-1 bg-transparent t-text text-sm sm:text-base px-4 py-2.5 sm:py-3 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 min-w-0" 
         />
         
         {variant === 'hero' ? (
           <button 
             type="submit" 
-            className="bg-[var(--text)] hover:opacity-90 active:scale-95 text-[var(--bg)] px-4 sm:px-8 py-2 sm:py-3 rounded-xl sm:rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm whitespace-nowrap"
+            className="bg-[var(--text)] hover:opacity-90 active:scale-95 text-[var(--bg)] px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-sm font-bold transition-all shadow-sm whitespace-nowrap"
           >
             Search
           </button> 

@@ -15,21 +15,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Warmly",
-  description: "Discover, download, and share high-quality greeting cards, festival wishes, and social media posters for every occasion.",
-  icons:{
-    icon:"/logo.png"
+  description:
+    "Discover, download, and share high-quality greeting cards, festival wishes, and social media posters for every occasion.",
+  icons: {
+    icon: "/logo.png",
   },
   keywords: [
-    "greeting cards", 
-    "festival wishes", 
-    "Happy Birthday images", 
-    "Diwali greetings", 
-    "download images", 
-    "Warmly"
+    "greeting cards",
+    "festival wishes",
+    "Happy Birthday images",
+    "Diwali greetings",
+    "download images",
+    "Warmly",
   ],
   openGraph: {
     title: "Warmly | Premium Greetings for Every Moment",
-    description: "Discover, download, and share high-quality greeting cards.",
+    description:
+      "Discover, download, and share high-quality greeting cards.",
     url: "https://warmly.app",
     siteName: "Warmly",
     type: "website",
@@ -37,7 +39,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Warmly | Premium Greetings",
-    description: "Discover, download, and share high-quality greeting cards.",
+    description:
+      "Discover, download, and share high-quality greeting cards.",
   },
 };
 
@@ -52,12 +55,15 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="t-bg t-text min-h-screen flex flex-col">
-        <Navbar />
-        <div className="flex-1"> 
-          {children}
-        </div>
-      </body>
+     <body className="t-bg t-text min-h-screen flex flex-col w-full overflow-x-hidden">
+  <Navbar />
+
+  <div className="h-14 shrink-0" />
+
+  <div className="flex-1 w-full flex flex-col">
+    {children}
+  </div>
+</body>
     </html>
   );
 }

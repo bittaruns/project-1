@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // Added usePathname
-import { Sun, Moon, LayoutGrid, TrendingUp, Info, Menu, X } from 'lucide-react';
-import { useDarkMode } from '@/hooks/useDark';
+import { usePathname } from 'next/navigation';
+import { LayoutGrid, TrendingUp, Info, Menu, X } from 'lucide-react';
 import Image from "next/image";
 import { UniversalSearch } from '@/components/shared/UniversalSearch';
 
 export function Navbar() {
-  const { darkMode, toggleDark } = useDarkMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname(); // Get the current route
+  const pathname = usePathname();
 
   const smoothAnimStyle = { 
     backfaceVisibility: 'hidden', 
@@ -25,7 +23,8 @@ export function Navbar() {
         
         {/* Left: Logo with Hover Animation */}
         <div className="flex-shrink-0 flex items-center">
-          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 group">
+          {/* Changed gap-1.5 to gap-0.5 to pull the text and icon tightly together */}
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-0.5 group">
             <div 
               className="relative w-8 h-8 sm:w-9 sm:h-9 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110" 
               style={smoothAnimStyle}
@@ -38,7 +37,8 @@ export function Navbar() {
                 className="object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300" 
               />
             </div>
-            <span className="t-text text-lg sm:text-xl font-bold tracking-tight opacity-90 group-hover:opacity-100 transition-all duration-300 block">
+            {/* Added a slight negative tracking (tracking-tighter) to further unify the logo text */}
+            <span className="t-text text-lg sm:text-xl font-medium tracking-tighter opacity-90 group-hover:opacity-100 transition-all duration-300 block">
               Warmly
             </span>
           </Link>
@@ -69,19 +69,10 @@ export function Navbar() {
           </Link>
         </nav>
 
-        {/* Right: Universal Search & Theme Controls */}
+        {/* Right: Universal Search & Mobile Toggle */}
         <div className="flex flex-1 lg:flex-none items-center justify-end gap-1 sm:gap-2">
           
           <UniversalSearch variant="navbar" />
-
-          <button 
-            onClick={toggleDark} 
-            style={smoothAnimStyle} 
-            className="t-muted hover:t-text transition-all duration-300 ease-out p-1.5 sm:p-2 rounded-full hover:bg-[var(--bg-tertiary)]/50 flex-shrink-0" 
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
 
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
@@ -94,7 +85,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Panel with Active States */}
+      {/* Mobile Menu Panel */}
       <div className={`lg:hidden absolute top-14 left-0 right-0 bg-[var(--surface)] border-b t-border shadow-2xl overflow-hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100 visible' : 'max-h-0 opacity-0 invisible'}`}>
         <div className="p-4 flex flex-col gap-2">
           <Link 

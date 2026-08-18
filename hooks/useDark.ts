@@ -6,33 +6,41 @@ export function useDarkMode() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    // 1. Check if user has a saved preference
-    const storedTheme = localStorage.getItem('theme');
-    // 2. Check if their system settings prefer dark mode
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // 1. Check if the user has explicitly saved a preference in the past
+    const savedTheme = localStorage.getItem('theme');
     
-    if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
-      setDarkMode(true);
-      document.documentElement.classList.add('dark');
+    if (savedTheme) {
+      const isDark = savedTheme === 'dark';
+      setDarkMode(isDark);
+      document.documentElement.classList.toggle('dark', isDark);
     } else {
-      setDarkMode(false);
-      document.documentElement.classList.remove('dark');
+      // 2. If no saved preference, automatically detect browser/system theme
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setDarkMode(systemPrefersDark);
+      document.documentElement.classList.toggle('dark', systemPrefersDark);
     }
+
+    // 3. Listen for system theme changes in real-time (if user changes OS settings)
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      // Only auto-switch if the user hasn't manually overridden it
+      if (!localStorage.getItem('theme')) {
+        setDarkMode(e.matches);
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   const toggleDark = () => {
     setDarkMode((prev) => {
-      const nextTheme = !prev;
-      
-      if (nextTheme) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      }
-      
-      return nextTheme;
+      const newTheme = !prev;
+      document.documentElement.classList.toggle('dark', newTheme);
+      // Save manual override to localStorage
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+      return newTheme;
     });
   };
 
