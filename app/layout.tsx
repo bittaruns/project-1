@@ -44,6 +44,23 @@ export const metadata: Metadata = {
   },
 };
 
+const themeCheckScript = `
+  (function() {
+    try {
+      var savedTheme = window.localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        }
+      }
+    } catch (e) {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,15 +72,17 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-     <body className="t-bg t-text min-h-screen flex flex-col w-full overflow-x-hidden">
-  <Navbar />
-
-  <div className="h-14 shrink-0" />
-
-  <div className="flex-1 w-full flex flex-col">
-    {children}
-  </div>
-</body>
+      <head>
+        {/* Inject the blocking script here */}
+        <script dangerouslySetInnerHTML={{ __html: themeCheckScript }} />
+      </head>
+      <body className="t-bg t-text min-h-screen flex flex-col w-full overflow-x-hidden">
+        <Navbar />
+        <div className="h-14 shrink-0" />
+        <div className="flex-1 w-full flex flex-col">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

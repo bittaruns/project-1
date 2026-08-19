@@ -3,9 +3,9 @@ import { Footer } from '@/components/layout/footer';
 export default function TermsPage() {
   return (
     <main className="t-bg min-h-[100svh] flex flex-col w-full overflow-x-hidden">
-      <div className="flex-1 pt-32 pb-16 px-4 sm:px-6 lg:px-8 w-full">
+      <div className="flex-1 pt-14 pb-14 px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-3xl mx-auto animate-fade-up">
-          <h1 className="text-4xl sm:text-5xl font-extrabold t-text tracking-tight mb-8">Terms of Use</h1>
+          <h1 className="text-5xl sm:text-7xl font-extrabold t-text tracking-tight mb-8">Terms of Use</h1>
           
           <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none t-muted space-y-6">
             <p>Last updated: {new Date().toLocaleDateString()}</p>

@@ -4,7 +4,7 @@ import { Coffee } from 'lucide-react';
 export default function AboutPage() {
   return (
     <main className="t-bg min-h-[100svh] flex flex-col w-full overflow-x-hidden">
-      <div className="flex-1 pt-28 sm:pt-32 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto">
+      <div className="flex-1 pt-11 sm:pt-15 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto">
         
         {/* ── Elegant Hero Reveal with Original Logo ── */}
         <div className="max-w-4xl animate-fade-up flex flex-col items-start">
