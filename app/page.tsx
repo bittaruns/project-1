@@ -100,17 +100,17 @@ export default function HomePage() {
 
       {/* ── CENTER: Typography & Search ── */}
       <div className="w-full flex flex-col items-center justify-center text-center flex-1 my-8 drop-shadow-xl">
-        <div className="animate-fade-up delay-100 w-full flex flex-col items-center px-[10px]">
+        <div className="animate-fade-up delay-100 w-full flex flex-col items-center px-[10px] gap-1 sm:gap-4">
           <h1 
             className="font-extrabold text-black dark:text-white tracking-tight leading-[1.1] text-center w-full sm:whitespace-nowrap" 
-            style={{ fontSize: "clamp(1.75rem, 4.5vw, 5rem)" }}
+            style={{ fontSize: "clamp(3.18rem, 5.5vw, 6rem)" }}
           >
             Greeting for <span>every</span> moment.
           </h1>
           
           <p 
             className="font-medium text-black/90 dark:text-white/90 mt-2 text-center drop-shadow-md" 
-            style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.15rem)" }}
+            style={{ fontSize: "clamp(0.80rem, 1.8vw, 1.15rem)" }}
           >
             Find, download, and share stunning HD greeting cards instantly.
           </p>
