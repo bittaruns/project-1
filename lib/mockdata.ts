@@ -1,29 +1,74 @@
-import { CardData,CategoryData } from "@/type";
+export interface CardData {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  tags: string[];
+  downloads: number;
+}
 
-export const UNSPLASH_IMAGES: CardData[] = [
-  { id: 1,  title: 'Happy Birthday Wishes',     category: 'Birthday',     image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=500&fit=crop&auto=format', downloads: 4821, height: 280 },
-  { id: 2,  title: 'Diwali Festival of Lights',  category: 'Diwali',       image: 'https://images.unsplash.com/photo-1605289355680-75fb41239154?w=400&h=350&fit=crop&auto=format', downloads: 6340, height: 240 },
-  { id: 3,  title: 'Good Morning Sunshine',      category: 'Good Morning', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=450&fit=crop&auto=format', downloads: 3102, height: 320 },
-  { id: 4,  title: 'Motivational Monday',        category: 'Motivation',   image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=400&fit=crop&auto=format', downloads: 5511, height: 260 },
-  { id: 5,  title: 'Anniversary Celebration',    category: 'Anniversary',  image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=520&fit=crop&auto=format', downloads: 2987, height: 300 },
-  { id: 6,  title: 'Holi Colors of Joy',         category: 'Holi',         image: 'https://images.unsplash.com/photo-1576021182211-9ea8dced3690?w=400&h=380&fit=crop&auto=format', downloads: 7203, height: 250 },
-  { id: 7,  title: 'Love and Warmth',            category: 'Love',         image: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=460&fit=crop&auto=format', downloads: 4455, height: 290 },
-  { id: 8,  title: 'Christmas Magic',            category: 'Christmas',    image: 'https://images.unsplash.com/photo-1545622783-b3e021430fee?w=400&h=340&fit=crop&auto=format', downloads: 8901, height: 220 },
-  { id: 9,  title: 'Rise and Shine',             category: 'Good Morning', image: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&h=480&fit=crop&auto=format', downloads: 3344, height: 310 },
-  { id: 10, title: 'Dream Big Always',           category: 'Motivation',   image: 'https://images.unsplash.com/photo-1533228100845-08145b01de14?w=400&h=360&fit=crop&auto=format', downloads: 6120, height: 240 },
-  { id: 11, title: 'Friendship Forever',         category: 'Friendship',   image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=420&fit=crop&auto=format', downloads: 2760, height: 270 },
-  { id: 12, title: 'New Year New Beginnings',    category: 'New Year',     image: 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=400&h=500&fit=crop&auto=format', downloads: 9234, height: 330 },
+export interface CategoryData {
+  name: string;
+  count: number;
+  image: string;
+}
+
+// Helper function to dynamically build the local file database
+const generateCards = (
+  folder: string,
+  prefix: string,
+  start: number,
+  end: number,
+  category: string,
+  baseTags: string[]
+): CardData[] => {
+  const cards: CardData[] = [];
+  for (let i = start; i <= end; i++) {
+    cards.push({
+      id: `${folder}-${i}`,
+      title: `${category} Greeting ${i}`,
+      category: category,
+      // Matches the exact paths in your public/Cards folder
+      image: `/Cards/${folder}/${prefix}-${i}.jpg`,
+      tags: [...baseTags, category.toLowerCase()],
+      downloads: Math.floor(Math.random() * 5000) + 100, // Mock download count
+    });
+  }
+  return cards;
+};
+
+// Compile all local images into a single database array
+export const LOCAL_CARDS: CardData[] = [
+  ...generateCards('4thofjuly', '4th july', 2, 20, '4th of July', ['independence day', 'america', 'july 4', 'fireworks']),
+  ...generateCards('christmas', 'christmas', 1, 20, 'Christmas', ['xmas', 'merry christmas', 'winter', 'holiday']),
+  ...generateCards('diwali', 'Diwali', 1, 10, 'Diwali', ['deepavali', 'festival of lights', 'india', 'diya']),
+  ...generateCards('easter', 'Easter', 1, 10, 'Easter', ['bunny', 'eggs', 'spring', 'sunday']),
+  ...generateCards('eid', 'Eid', 1, 10, 'Eid', ['mubarak', 'ramadan', 'islamic', 'moon']),
+  ...generateCards('fathers_day', 'father_s day', 2, 20, "Father's Day", ['dad', 'father', 'parent', 'love']),
+  ...generateCards('halloween', 'Halloween', 1, 20, 'Halloween', ['spooky', 'october 31', 'pumpkin', 'scary']),
+  ...generateCards('hannukah', 'Hanukkah', 1, 10, 'Hanukkah', ['chanukah', 'jewish', 'menorah', 'festival of lights']),
+  ...generateCards('holi', 'Holi', 1, 10, 'Holi', ['colors', 'festival of colors', 'india', 'spring']),
+  ...generateCards('mothers_day', 'mother_s day', 1, 20, "Mother's Day", ['mom', 'mother', 'parent', 'love']),
+  ...generateCards('st.patricksday', 'St. Patrick_s Day', 1, 10, "St. Patrick's Day", ['irish', 'lucky', 'clover', 'march 17']),
+  ...generateCards('thanksgiving', 'thanksgiving', 1, 20, 'Thanksgiving', ['turkey', 'fall', 'autumn', 'grateful']),
+  ...generateCards('valentines_day', 'Valentines', 1, 20, "Valentine's Day", ['love', 'romance', 'february 14', 'heart']),
 ];
 
+// Generate the category list dynamically based on the cards
 export const CATEGORIES: CategoryData[] = [
-  { name: 'Birthday',     count: 1240, image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Diwali',       count: 890,  image: 'https://images.unsplash.com/photo-1605289355680-75fb41239154?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Good Morning', count: 2100, image: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Motivation',   count: 1560, image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Anniversary',  count: 670,  image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Christmas',    count: 1890, image: 'https://images.unsplash.com/photo-1545622783-b3e021430fee?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Love',         count: 980,  image: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=260&fit=crop&auto=format' },
-  { name: 'Holi',         count: 445,  image: 'https://images.unsplash.com/photo-1576021182211-9ea8dced3690?w=400&h=260&fit=crop&auto=format' },
+  { name: '4th of July', count: 19, image: '/Cards/4thofjuly/4th july-2.jpg' },
+  { name: 'Christmas', count: 20, image: '/Cards/christmas/christmas-1.jpg' },
+  { name: 'Diwali', count: 10, image: '/Cards/diwali/Diwali-1.jpg' },
+  { name: 'Easter', count: 10, image: '/Cards/easter/Easter-1.jpg' },
+  { name: 'Eid', count: 10, image: '/Cards/eid/Eid-1.jpg' },
+  { name: "Father's Day", count: 19, image: '/Cards/fathers_day/father_s day-2.jpg' },
+  { name: 'Halloween', count: 20, image: '/Cards/halloween/Halloween-1.jpg' },
+  { name: 'Hanukkah', count: 10, image: '/Cards/hannukah/Hanukkah-1.jpg' },
+  { name: 'Holi', count: 10, image: '/Cards/holi/Holi-1.jpg' },
+  { name: "Mother's Day", count: 20, image: '/Cards/mothers_day/mother_s day-1.jpg' },
+  { name: "St. Patrick's Day", count: 10, image: '/Cards/st.patricksday/St. Patrick_s Day-1.jpg' },
+  { name: 'Thanksgiving', count: 20, image: '/Cards/thanksgiving/thanksgiving-1.jpg' },
+  { name: "Valentine's Day", count: 20, image: '/Cards/valentines_day/Valentines-1.jpg' },
 ];
 
 export const SEARCH_CHIPS = ['Birthday', 'Diwali', 'Holi', 'Christmas', 'Anniversary', 'Good Morning', 'Love', 'Quotes', 'Motivation'];

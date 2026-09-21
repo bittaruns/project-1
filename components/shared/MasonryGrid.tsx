@@ -1,127 +1,78 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Download, Heart, Share2 } from 'lucide-react';
-import { CardData } from '@/type';
+import React from 'react';
+import Link from 'next/link';
+import { CardData } from '@/lib/mockdata';
 
-// Internal ImageCard Component
-function ImageCard({ card, onClick }: { card: CardData; onClick: () => void }) {
-  const [hovered, setHovered] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [downloaded, setDownloaded] = useState(false);
-  
-  // Track when the image actually finishes loading to prevent layout popping
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  return (
-    <div
-      className="relative rounded-2xl overflow-hidden cursor-pointer card-hover t-surface border t-border flex flex-col bg-[var(--surface)]"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onClick={onClick}
-    >
-      {/* 
-        The placeholder background displays immediately, holding the exact height. 
-        Once the image loads, it smoothly fades in. 
-      */}
-      <div 
-        className="relative overflow-hidden w-full bg-[var(--bg-tertiary)]" 
-        style={{ height: card.height || 300 }}
-      >
-        <img
-          src={card.image} 
-          alt={card.title} 
-          loading="lazy"
-          onLoad={() => setIsLoaded(true)}
-          className={`w-full h-full object-cover transition-all duration-700 ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-          style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
-        />
-        <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`} />
-        
-        {/* Action Buttons overlay */}
-        <div className={`absolute bottom-3 left-3 right-3 flex items-center justify-between transition-all duration-300 ease-out ${hovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-          <button
-            onClick={e => { 
-              e.stopPropagation(); 
-              setDownloaded(true); 
-              setTimeout(() => setDownloaded(false), 2000); 
-            }}
-            className="flex items-center gap-1.5 bg-white/95 text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-white transition-colors shadow-sm"
-          >
-            <Download size={14} />{downloaded ? 'Saved!' : 'Download'}
-          </button>
-          
-          <div className="flex items-center gap-1.5">
-            <button 
-              onClick={e => { e.stopPropagation(); setLiked(!liked); }}
-              className={`p-1.5 rounded-lg transition-all shadow-sm ${liked ? 'bg-[var(--accent)] text-white scale-105' : 'bg-white/95 text-gray-700 hover:bg-white'}`}
-            >
-              <Heart size={14} fill={liked ? 'currentColor' : 'none'} />
-            </button>
-            <button 
-              onClick={e => e.stopPropagation()}
-              className="p-1.5 rounded-lg bg-white/95 text-gray-700 hover:bg-white transition-all shadow-sm"
-            >
-              <Share2 size={14} />
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Clean, styled card footer */}
-      <div className="p-4 pt-3">
-        <p className="text-sm font-bold t-text truncate tracking-tight">{card.title}</p>
-        <div className="flex items-center justify-between mt-1.5">
-          <span className="text-xs t-muted font-medium">{card.category}</span>
-          <span className="text-xs t-muted flex items-center gap-1 font-medium">
-            <Download size={12} />
-            {card.downloads.toLocaleString()}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+interface MasonryGridProps {
+  cards: CardData[];
+  viewMode?: 'grid' | 'list';
 }
 
-export function MasonryGrid({ cards }: { cards: CardData[] }) {
-  const router = useRouter();
-  const [colCount, setColCount] = useState(1);
+export function MasonryGrid({ cards, viewMode = 'grid' }: MasonryGridProps) {
+  
+  // List View Layout
+  if (viewMode === 'list') {
+    return (
+      <div className="flex flex-col gap-4">
+        {cards.map((card, index) => (
+          <Link 
+            href={`/detail/${card.id}`} 
+            key={`${card.id}-${index}`} 
+            className="flex items-center gap-4 p-3 sm:p-4 bg-transparent hover:bg-gray-50 dark:hover:bg-[#18181b] rounded-2xl transition-colors group"
+          >
+            <div className="w-24 h-20 sm:w-40 sm:h-28 shrink-0 rounded-[10px] overflow-hidden bg-gray-100 dark:bg-[#27272a] border border-black/5 dark:border-white/5">
+              <img 
+                src={card.image} 
+                alt={card.title} 
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" 
+              />
+            </div>
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+              <h3 className="text-gray-900 dark:text-[#e4e4e7] font-semibold text-[14px] sm:text-[15px] truncate group-hover:text-black dark:group-hover:text-white transition-colors">
+                {card.title}
+              </h3>
+              <p className="text-gray-500 dark:text-[#71717a] text-[13px] mt-0.5">
+                {card.category}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    );
+  }
 
-  // Dynamically calculate how many columns we need based on window width
-  useEffect(() => {
-    const updateCols = () => {
-      if (window.innerWidth >= 1280) setColCount(5); // xl
-      else if (window.innerWidth >= 1024) setColCount(4); // lg
-      else if (window.innerWidth >= 768) setColCount(3); // md
-      else if (window.innerWidth >= 640) setColCount(2); // sm
-      else setColCount(1); // mobile
-    };
-    
-    updateCols();
-    window.addEventListener('resize', updateCols);
-    return () => window.removeEventListener('resize', updateCols);
-  }, []);
-
-  // Distribute cards sequentially into the calculated columns
-  // This prevents the grid from recalculating and jumping when infinite scroll triggers
-  const columns: CardData[][] = Array.from({ length: colCount }, () => []);
-  cards.forEach((card, i) => {
-    columns[i % colCount].push(card);
-  });
-
+  // Standard Grid View (Matching the Wallper Screenshot exactly)
   return (
-    <div className="flex items-start gap-5 w-full">
-      {columns.map((columnCards, colIndex) => (
-        <div key={`col-${colIndex}`} className="flex-1 flex flex-col gap-5">
-          {columnCards.map((card, i) => (
-            <ImageCard 
-              key={`${card.id}-${colIndex}-${i}`} 
-              card={card} 
-              onClick={() => router.push(`/detail/${card.id}`)} 
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-8">
+      {cards.map((card, index) => (
+        <Link 
+          href={`/detail/${card.id}`} 
+          key={`${card.id}-${index}`} 
+          className="group cursor-pointer flex flex-col gap-2.5"
+        >
+          {/* Image Container with precise rounded corners and 16:9 ratio */}
+          <div className="block relative w-full aspect-[16/9] sm:aspect-[16/10] rounded-[12px] overflow-hidden border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-[#121212]">
+            <img 
+              src={card.image} 
+              alt={card.title} 
+              loading="lazy"
+              className="w-full h-full object-cover transform group-hover:scale-[1.03] transition-transform duration-500 ease-out"
             />
-          ))}
-        </div>
+            {/* Very subtle hover overlay to make it feel interactive */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
+          </div>
+          
+          {/* Text underneath the image */}
+          <div className="flex flex-col justify-start px-0.5">
+            <h3 className="text-gray-900 dark:text-[#e4e4e7] font-semibold text-[14px] truncate group-hover:text-black dark:group-hover:text-white transition-colors">
+              {card.title}
+            </h3>
+            <p className="text-gray-500 dark:text-[#71717a] text-[13px] font-medium mt-0.5">
+              {card.category}
+            </p>
+          </div>
+        </Link>
       ))}
     </div>
   );

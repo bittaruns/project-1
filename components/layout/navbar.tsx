@@ -1,14 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutGrid, TrendingUp, Info, Menu, X } from 'lucide-react';
 import Image from "next/image";
-import { UniversalSearch } from '@/components/shared/UniversalSearch';
 
 export function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const smoothAnimStyle = { 
@@ -18,15 +15,16 @@ export function Navbar() {
   } as React.CSSProperties;
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[var(--bg)]/80 backdrop-blur-xl transition-all duration-300 ease-in-out">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+    <header 
+      className="fixed top-0 left-0 w-full z-50 bg-[#f9f9f9] dark:bg-black transition-colors duration-300"
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Left: Logo with Hover Animation */}
+        {/* Left: Logo */}
         <div className="flex-shrink-0 flex items-center">
-          {/* Changed gap-1.5 to gap-0.5 to pull the text and icon tightly together */}
-          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-0.5 group">
+          <Link href="/" className="flex items-center gap-3 group">
             <div 
-              className="relative w-8 h-8 sm:w-9 sm:h-9 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110" 
+              className="relative w-8 h-8 sm:w-9 sm:h-9 transition-transform duration-300 group-hover:scale-105" 
               style={smoothAnimStyle}
             >
               <Image 
@@ -34,82 +32,29 @@ export function Navbar() {
                 alt="Warmly Logo" 
                 fill 
                 sizes="(max-width: 640px) 32px, 36px" 
-                className="object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300" 
+                className="object-contain" 
               />
             </div>
-            {/* Added a slight negative tracking (tracking-tighter) to further unify the logo text */}
-            <span className="t-text text-lg sm:text-xl font-medium tracking-tighter opacity-90 group-hover:opacity-100 transition-all duration-300 block">
+            <span className="text-black dark:text-white text-xl font-bold tracking-tight">
               Warmly
             </span>
           </Link>
         </div>
 
-        {/* Center: Desktop Navigation with Active States */}
-        <nav className="hidden lg:flex items-center justify-center gap-4 flex-1">
+        {/* Right: Categories Text Link */}
+        <div className="flex items-center justify-end">
           <Link 
             href="/categories" 
-            className={`flex items-center text-sm font-medium px-3 py-2 rounded-full transition-all duration-300 group ${pathname === '/categories' ? 't-text bg-[var(--bg-tertiary)] shadow-sm' : 't-muted hover:t-text hover:bg-[var(--bg-tertiary)]/50'}`}
+            className={`text-sm sm:text-base font-medium transition-colors duration-300 ${
+              pathname === '/categories' 
+                ? 'text-black dark:text-white' 
+                : 'text-gray-500 dark:text-[#a1a1aa] hover:text-black dark:hover:text-white'
+            }`}
           >
-            <LayoutGrid size={14} style={smoothAnimStyle} className={`mr-1.5 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110 ${pathname === '/categories' ? 'text-[var(--accent)]' : ''}`} />
             Categories
           </Link>
-          <Link 
-            href="/search" 
-            className={`flex items-center text-sm font-medium px-3 py-2 rounded-full transition-all duration-300 group ${pathname === '/search' ? 't-text bg-[var(--bg-tertiary)] shadow-sm' : 't-muted hover:t-text hover:bg-[var(--bg-tertiary)]/50'}`}
-          >
-            <TrendingUp size={14} style={smoothAnimStyle} className={`mr-1.5 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110 ${pathname === '/search' ? 'text-[var(--accent)]' : ''}`} />
-            Discover
-          </Link>
-          <Link 
-            href="/about" 
-            className={`flex items-center text-sm font-medium px-3 py-2 rounded-full transition-all duration-300 group ${pathname === '/about' ? 't-text bg-[var(--bg-tertiary)] shadow-sm' : 't-muted hover:t-text hover:bg-[var(--bg-tertiary)]/50'}`}
-          >
-            <Info size={14} style={smoothAnimStyle} className={`mr-1.5 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110 ${pathname === '/about' ? 'text-[var(--accent)]' : ''}`} />
-            About
-          </Link>
-        </nav>
-
-        {/* Right: Universal Search & Mobile Toggle */}
-        <div className="flex flex-1 lg:flex-none items-center justify-end gap-1 sm:gap-2">
-          
-          <UniversalSearch variant="navbar" />
-
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-            style={smoothAnimStyle} 
-            className="lg:hidden t-muted hover:t-text transition-all duration-300 ease-out p-1.5 sm:p-2 rounded-full hover:bg-[var(--bg-tertiary)]/50 flex-shrink-0" 
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
-      </div>
 
-      {/* Mobile Menu Panel */}
-      <div className={`lg:hidden absolute top-14 left-0 right-0 bg-[var(--surface)] border-b t-border shadow-2xl overflow-hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100 visible' : 'max-h-0 opacity-0 invisible'}`}>
-        <div className="p-4 flex flex-col gap-2">
-          <Link 
-            href="/categories" 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={`flex items-center p-3 rounded-xl text-sm font-medium transition-colors ${pathname === '/categories' ? 't-text bg-[var(--bg-tertiary)]' : 't-text bg-[var(--bg-tertiary)]/30 hover:bg-[var(--bg-tertiary)]'}`}
-          >
-            <LayoutGrid size={16} className={`mr-3 ${pathname === '/categories' ? 'text-[var(--accent)]' : 't-muted'}`} /> Categories
-          </Link>
-          <Link 
-            href="/search" 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={`flex items-center p-3 rounded-xl text-sm font-medium transition-colors ${pathname === '/search' ? 't-text bg-[var(--bg-tertiary)]' : 't-text bg-[var(--bg-tertiary)]/30 hover:bg-[var(--bg-tertiary)]'}`}
-          >
-            <TrendingUp size={16} className={`mr-3 ${pathname === '/search' ? 'text-[var(--accent)]' : 't-muted'}`} /> Discover
-          </Link>
-          <Link 
-            href="/about" 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={`flex items-center p-3 rounded-xl text-sm font-medium transition-colors ${pathname === '/about' ? 't-text bg-[var(--bg-tertiary)]' : 't-text bg-[var(--bg-tertiary)]/30 hover:bg-[var(--bg-tertiary)]'}`}
-          >
-            <Info size={16} className={`mr-3 ${pathname === '/about' ? 'text-[var(--accent)]' : 't-muted'}`} /> About Us
-          </Link>
-        </div>
       </div>
     </header>
   );
