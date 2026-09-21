@@ -18,11 +18,11 @@ export function Navbar() {
     <header 
       className="fixed top-0 left-0 w-full z-50 bg-[#f9f9f9] dark:bg-black transition-colors duration-300"
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
         
         {/* Left: Logo */}
         <div className="flex-shrink-0 flex items-center">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/welcome" className="flex items-center gap-3 group">
             <div 
               className="relative w-8 h-8 sm:w-9 sm:h-9 transition-transform duration-300 group-hover:scale-105" 
               style={smoothAnimStyle}

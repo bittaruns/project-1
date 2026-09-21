@@ -27,7 +27,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
 
   const TRENDING_SEARCHES = ['diwali', 'christmas', 'halloween', 'mothers day'];
   const TRENDING_TOPICS = CATEGORIES.slice(0, 4);
-  const TRENDING_COLLECTIONS = ['Minimalist', 'Typography', 'Vintage', 'Floral'];
 
   const handleSearch = (e?: React.FormEvent, customQuery?: string) => {
     if (e) e.preventDefault();
@@ -99,26 +98,6 @@ export function UniversalSearch({ variant = 'hero', initialQuery = '', onSearch 
           ))}
         </div>
       </div>
-
-      {variant !== 'navbar' && (
-        <div>
-          <h3 className="text-[11px] sm:text-xs font-bold text-gray-500 dark:text-[#a1a1aa] uppercase tracking-wider mb-2.5">
-            Trending Collections
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {TRENDING_COLLECTIONS.map(collection => (
-              <button 
-                key={collection} 
-                type="button" 
-                onMouseDown={(e) => { e.preventDefault(); handleSearch(undefined, collection); }}
-                className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#202024] hover:bg-gray-100 dark:hover:bg-[#2a2a2e] text-[13px] text-gray-700 dark:text-gray-300 transition-colors"
-              >
-                {collection}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 
