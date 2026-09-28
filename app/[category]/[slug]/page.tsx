@@ -68,7 +68,7 @@ export default async function ImageDetailPage(props: ImageDetailPageProps) {
 
             <a href={card.image} download={`${card.id}.jpg`} className="block w-full mb-4">
               <Button variant="primary" size="lg" className="w-full flex items-center justify-center gap-2 bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-opacity">
-                <Download size={18} /> Download Original Free
+                <Download size={18} /> Download
               </Button>
             </a>
 
