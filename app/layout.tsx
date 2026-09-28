@@ -73,15 +73,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <head>
-        {/* Inject the blocking script here */}
         <script dangerouslySetInnerHTML={{ __html: themeCheckScript }} />
       </head>
-      <body className="t-bg t-text min-h-screen flex flex-col w-full overflow-x-hidden">
+      {/* Explicitly set exact bg colors to match Navbar and prevent color seams */}
+      <body className="bg-[#f9f9f9] dark:bg-black text-black dark:text-white min-h-screen flex flex-col w-full overflow-x-hidden">
         <Navbar />
-        <div className="h-14 shrink-0" />
-        <div className="flex-1 w-full flex flex-col">
+        
+        {/* Replaced empty spacer div with a semantic <main> tag using pt-14 (padding-top) */}
+        <main className="flex-1 w-full flex flex-col pt-14">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   );
