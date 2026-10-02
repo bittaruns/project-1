@@ -61,7 +61,7 @@ export default function CombinedGreetingsPage() {
           <div className="text-center max-w-2xl mx-auto space-y-3 sm:space-y-4">
             <h1 className="text-[32px] sm:text-[40px] md:text-[46px] font-bold tracking-tight leading-[1.1] text-black dark:text-white">
               Warmly <br className="hidden sm:block" />
-              Greetings for everyone
+              Greetings
             </h1>
             <p className="text-gray-500 dark:text-[#a1a1aa] text-[13px] sm:text-[15px] font-normal leading-relaxed">
               Discover {CATEGORIES.length} beautiful categories, handpicked and <br className="hidden sm:block" />
