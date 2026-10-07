@@ -70,6 +70,25 @@ export default function WelcomePage() {
     return `#${name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
   };
 
+  // Reusable component to keep the marquee code clean and DRY
+  const CategoryBlock = ({ categories, aspectClass, widthClass }: { categories: typeof CATEGORIES, aspectClass: string, widthClass: string }) => (
+    <div className="flex items-start gap-6 pr-6">
+      {categories.map((category, i) => (
+        <div key={i} className={`flex flex-col group shrink-0 ${widthClass}`}>
+          <div className={`overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 ${aspectClass} bg-gray-100 dark:bg-zinc-900`}>
+            <img src={category.image} alt={category.name} className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
+          </div>
+          <div className="mt-4 flex items-center justify-between px-1">
+            <span className="font-bold text-black dark:text-white text-[15px]">{category.name}</span>
+            <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-2.5 py-1 rounded-md transition-colors group-hover:bg-gray-200 group-hover:dark:bg-zinc-700">
+              {generateTag(category.name)}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <main className="bg-[#f9f9f9] dark:bg-black text-black dark:text-white min-h-[100svh] flex flex-col w-full transition-colors duration-300">
       
@@ -107,7 +126,7 @@ export default function WelcomePage() {
         <section className="relative min-h-[calc(100svh-6rem)] flex flex-col p-6 sm:p-10">
           <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm">
             <div className="absolute inset-0 bg-[url('/BI.webp')] bg-cover bg-center bg-no-repeat opacity-100 animate-breathe" />
-            <div className="absolute inset-0 bg-white/20 dark:bg-slate-900/50 transition-colors duration-500" />
+            <div className="absolute inset-0 bg-white/20 dark:bg-black/60 transition-colors duration-500" />
           </div>
 
           <div className="relative z-10 w-full h-full flex flex-col flex-1 justify-between max-w-7xl mx-auto">
@@ -134,9 +153,19 @@ export default function WelcomePage() {
             </div>
 
             <div className="w-full flex justify-center pb-2 sm:pb-4">
-              <Link href="/download-app" className="group inline-flex items-center gap-3 rounded-full bg-white px-7 py-3.5 sm:px-8 sm:py-4 shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md border border-gray-100 dark:border-none">
+              <a 
+                href="https://play.google.com/store/apps/details?id=realappes.greetingscards"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 rounded-full bg-white px-7 py-3.5 sm:px-8 sm:py-4 shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md border border-gray-100 dark:border-none"
+              >
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" 
+                  alt="Google Play" 
+                  className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform duration-300"
+                />
                 <span className="text-sm sm:text-base font-bold text-black">Get the Free App</span>
-              </Link>
+              </a>
             </div>
           </div>
         </section>
@@ -170,7 +199,7 @@ export default function WelcomePage() {
                 }} 
               />
               
-              <ul className="flex flex-col text-xl font-medium border-l-2 border-gray-200 dark:border-[#27272a] relative">
+              <ul className="flex flex-col text-xl font-medium border-l-2 border-gray-200 dark:border-zinc-800 relative">
                 {FEATURES_DATA.map((feature, idx) => {
                   const isActive = activeFeature === idx;
                   return (
@@ -181,7 +210,7 @@ export default function WelcomePage() {
                         py-5 pl-8
                         ${isActive 
                           ? 'text-black dark:text-white font-bold translate-x-3' 
-                          : 'text-gray-500 dark:text-gray-500 hover:text-black dark:hover:text-white hover:translate-x-1'
+                          : 'text-gray-500 hover:text-black dark:text-zinc-500 dark:hover:text-white hover:translate-x-1'
                         }`}
                     >
                       {feature.label}
@@ -200,7 +229,7 @@ export default function WelcomePage() {
                 ref={(el) => { featureRefs.current[i] = el; }} 
                 className="flex flex-col gap-6 scroll-mt-32"
               >
-                <div className="w-full aspect-square sm:aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] border border-gray-200 dark:border-[#27272a] shadow-xl md:shadow-2xl overflow-hidden relative group bg-gray-100 dark:bg-[#121212]">
+                <div className="w-full aspect-square sm:aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] border border-gray-200 dark:border-zinc-800 shadow-xl md:shadow-2xl overflow-hidden relative group bg-gray-100 dark:bg-zinc-900">
                   <img 
                     src={feature.image} 
                     alt={feature.title}
@@ -211,12 +240,12 @@ export default function WelcomePage() {
                 
                 <div>
                   {/* Mobile-Only Label Badge (Hidden on Desktop) */}
-                  <span className="md:hidden text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 block">
+                  <span className="md:hidden text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-zinc-400 mb-2 block">
                     {feature.label}
                   </span>
                   
                   <h3 className="text-2xl md:text-3xl font-bold mb-3 text-black dark:text-white">{feature.title}</h3>
-                  <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-lg leading-relaxed">{feature.desc}</p>
+                  <p className="text-base md:text-lg text-gray-600 dark:text-zinc-400 max-w-lg leading-relaxed">{feature.desc}</p>
                 </div>
               </div>
             ))}
@@ -230,7 +259,7 @@ export default function WelcomePage() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6 text-black dark:text-white">
             Made by community.<br />Greetings that truly live.
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-zinc-400 max-w-2xl mx-auto">
             Thousands of HD greetings, crafted and curated for every occasion. Refreshed every single day.
           </p>
         </div>
@@ -238,82 +267,16 @@ export default function WelcomePage() {
         {/* Marquee Row 1 */}
         <div className="w-full inline-flex flex-nowrap [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
           <div className="flex w-max animate-marquee-left hover:pause">
-            
-            {/* Block 1 */}
-            <div className="flex items-start gap-6 pr-6">
-              {row1Categories.map((category, i) => (
-                <div key={i} className="flex flex-col group shrink-0 w-[280px] sm:w-[350px]">
-                  <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-[#27272a] aspect-[16/9] bg-gray-100 dark:bg-[#121212]">
-                    <img src={category.image} alt={category.name} className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
-                  </div>
-                  <div className="mt-4 flex items-center justify-between px-1">
-                    <span className="font-bold text-black dark:text-white text-[15px]">{category.name}</span>
-                    <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#18181b] border border-gray-200 dark:border-[#27272a] px-2.5 py-1 rounded-md transition-colors group-hover:bg-gray-200 group-hover:dark:bg-[#27272a]">
-                      {generateTag(category.name)}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Block 2 (Duplicate for Loop) */}
-            <div className="flex items-start gap-6 pr-6">
-              {row1Categories.map((category, i) => (
-                <div key={`dup-${i}`} className="flex flex-col group shrink-0 w-[280px] sm:w-[350px]">
-                  <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-[#27272a] aspect-[16/9] bg-gray-100 dark:bg-[#121212]">
-                    <img src={category.image} alt={category.name} className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
-                  </div>
-                  <div className="mt-4 flex items-center justify-between px-1">
-                    <span className="font-bold text-black dark:text-white text-[15px]">{category.name}</span>
-                    <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#18181b] border border-gray-200 dark:border-[#27272a] px-2.5 py-1 rounded-md transition-colors group-hover:bg-gray-200 group-hover:dark:bg-[#27272a]">
-                      {generateTag(category.name)}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
+            <CategoryBlock categories={row1Categories} aspectClass="aspect-[16/9]" widthClass="w-[280px] sm:w-[350px]" />
+            <CategoryBlock categories={row1Categories} aspectClass="aspect-[16/9]" widthClass="w-[280px] sm:w-[350px]" />
           </div>
         </div>
 
         {/* Marquee Row 2 (Reverse) */}
         <div className="w-full inline-flex flex-nowrap mt-10 [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
           <div className="flex w-max animate-marquee-right hover:pause">
-            
-            {/* Block 1 */}
-            <div className="flex items-start gap-6 pr-6">
-              {row2Categories.map((category, i) => (
-                <div key={i} className="flex flex-col group shrink-0 w-[240px] sm:w-[300px]">
-                  <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-[#27272a] aspect-[4/3] bg-gray-100 dark:bg-[#121212]">
-                    <img src={category.image} alt={category.name} className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
-                  </div>
-                  <div className="mt-4 flex items-center justify-between px-1">
-                    <span className="font-bold text-black dark:text-white text-[15px]">{category.name}</span>
-                    <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#18181b] border border-gray-200 dark:border-[#27272a] px-2.5 py-1 rounded-md transition-colors group-hover:bg-gray-200 group-hover:dark:bg-[#27272a]">
-                      {generateTag(category.name)}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Block 2 (Duplicate for Loop) */}
-            <div className="flex items-start gap-6 pr-6">
-              {row2Categories.map((category, i) => (
-                <div key={`dup2-${i}`} className="flex flex-col group shrink-0 w-[240px] sm:w-[300px]">
-                  <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-[#27272a] aspect-[4/3] bg-gray-100 dark:bg-[#121212]">
-                    <img src={category.image} alt={category.name} className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
-                  </div>
-                  <div className="mt-4 flex items-center justify-between px-1">
-                    <span className="font-bold text-black dark:text-white text-[15px]">{category.name}</span>
-                    <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#18181b] border border-gray-200 dark:border-[#27272a] px-2.5 py-1 rounded-md transition-colors group-hover:bg-gray-200 group-hover:dark:bg-[#27272a]">
-                      {generateTag(category.name)}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
+            <CategoryBlock categories={row2Categories} aspectClass="aspect-[4/3]" widthClass="w-[240px] sm:w-[300px]" />
+            <CategoryBlock categories={row2Categories} aspectClass="aspect-[4/3]" widthClass="w-[240px] sm:w-[300px]" />
           </div>
         </div>
       </section>

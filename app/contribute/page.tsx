@@ -35,10 +35,10 @@ export default function ContributePage() {
               Are you a designer or illustrator? We are always looking to expand our library with fresh, beautiful styles. Submit your custom greeting cards to us, and if they fit our vibe, we will buy them at a fair price to feature in our global inventory.
             </p>
             <a 
-              href="mailto:hello@warmly.app" 
-              className="inline-flex items-center justify-center gap-2 text-sm font-bold bg-[var(--text)] text-[var(--bg)] px-6 py-3 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md"
+              href="#" 
+              className="inline-flex items-center justify-center gap-2 text-sm font-bold bg-red-500 text-[var(--bg)] px-6 py-3 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md"
             >
-              Submit your designs <ArrowRight size={16} />
+              Coming Soon <ArrowRight size={16} />
             </a>
           </div>
         </div>

@@ -3,17 +3,37 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDarkMode } from '@/hooks/useDark';
-import { Sun, Moon, Coffee } from 'lucide-react';
+import { 
+  Sun, 
+  Moon, 
+  Coffee, 
+  Smartphone, 
+  Pin, 
+  ShoppingBag,
+  PlusCircle
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+// Custom SVGs matching Lucide's style for brands removed from the lucide-react package
+const FacebookIcon = ({ size = 16 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+);
+
+const YoutubeIcon = ({ size = 16 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.1C2.6 6.3 3.3 5.6 4.1 5.5C6.1 5.1 12 5.1 12 5.1s5.9 0 7.9.4c.8.1 1.5.8 1.6 1.6.4 2 .4 4.9.4 4.9s0 2.9-.4 4.9c-.1.8-.8 1.5-1.6 1.6-2 .4-7.9.4-7.9.4s-5.9 0-7.9-.4c-.8-.1-1.5-.8-1.6-1.6-.4-2-.4-4.9-.4-4.9s0-2.9.4-4.9z"/><polygon points="9.8 14.3 15.8 12 9.8 9.7 9.8 14.3"/></svg>
+);
+
+const InstagramIcon = ({ size = 16 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+);
+
 
 export function Footer() {
   const { darkMode, toggleDark } = useDarkMode();
   
-  // FIX: Store the random rain drops in state to prevent React Hydration Mismatch errors
   const [rainDrops, setRainDrops] = useState<React.CSSProperties[]>([]);
 
   useEffect(() => {
-    // Generate random values only on the client side after the component mounts
     setRainDrops(
       [...Array(50)].map(() => ({
         left: `${Math.random() * 100}%`,
@@ -26,11 +46,9 @@ export function Footer() {
   }, []);
 
   return (
-    // WRAPPER: Added px-4 sm:px-6 lg:px-8 to create the floating card white-space effect on the sides
     <div className="w-full px-4 sm:px-6 lg:px-8 mt-16">
       <footer className="relative w-full bg-[var(--text)] text-[var(--bg)] rounded-t-[2.5rem] sm:rounded-t-[4rem] pt-12 sm:pt-16 overflow-hidden flex flex-col justify-between">
         
-        {/* --- TINY RAIN ANIMATION --- */}
         <style>{`
           @keyframes tiny-rain {
             0% { transform: translateY(-10px); opacity: 0; }
@@ -47,7 +65,6 @@ export function Footer() {
           className="absolute top-0 left-0 w-full h-32 overflow-hidden pointer-events-none z-0"
           style={{ WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 100%)' }}
         >
-          {/* Render the safely generated client-side rain drops */}
           {rainDrops.map((style, i) => (
             <div
               key={i}
@@ -56,7 +73,6 @@ export function Footer() {
             />
           ))}
         </div>
-        {/* --------------------------- */}
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
           
@@ -110,8 +126,41 @@ export function Footer() {
             <div className="col-span-1 md:col-span-2 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
               <h4 className="text-sm font-bold opacity-100 mb-4">The Cool</h4>
               <ul className="space-y-3 mb-6 flex flex-col items-center md:items-start">
-                <li><a href="#" className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">X</a></li>
-                <li><Link href="/contribute" className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity text-yellow-300 dark:text-yellow-500">Get you card added</Link></li>
+                <li>
+                  <a href="https://play.google.com/store/apps/details?id=realappes.greetingscards" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    <Smartphone size={16} /> Android App
+                  </a>
+                </li>
+                <li>
+                  <a href="https://youtube.com/@warmlygreetings" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    <YoutubeIcon size={16} /> YouTube
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.facebook.com/warmlygreetings/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    <FacebookIcon size={16} /> Facebook
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com/warmlygreetings" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    <InstagramIcon size={16} /> Instagram
+                  </a>
+                </li>
+                <li>
+                  <a href="https://in.pinterest.com/warmlygreetings/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    <Pin size={16} /> Pinterest
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.redbubble.com/people/WarmlyGreetings/shop" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                    <ShoppingBag size={16} /> Redbubble
+                  </a>
+                </li>
+                <li>
+                  <Link href="/contribute" className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity text-yellow-300 dark:text-yellow-500">
+                    <PlusCircle size={16} /> Get your card added
+                  </Link>
+                </li>
               </ul>
 
               <a 
